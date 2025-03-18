@@ -7,4 +7,5 @@ const router = Router();
 // Usar las rutas de usuarios
 router.use("/usuarios", usuariosRoutes);
 
+//Exportamos router
 export default router;

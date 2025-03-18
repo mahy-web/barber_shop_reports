@@ -1,3 +1,4 @@
+// Librerias y rutas
 import express from "express";
 import path from "path";
 import router from "./routes/index.routes.js";
@@ -19,4 +20,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Rutas
 app.use("/", router);
 
+//Exportamos app
 export default app;

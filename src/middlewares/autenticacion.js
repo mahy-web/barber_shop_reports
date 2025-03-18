@@ -1,11 +1,14 @@
+// Librerias y rutas
 import jsonwebtoken from "jsonwebtoken";
 import "dotenv/config";
 import usuariosModel from "../models/usuarios.model.js";
 
+//Exportamos funcion generarToken
 export function generarToken(identificacion) {
     return jsonwebtoken.sign({ identificacion }, process.env.JWT_TOKEN_SECRET, { expiresIn: "1h" });
 }
 
+//Exportamos funcion validarToken
 export async function validarToken(req, res, next) {
     try {
         const token = req.header("Authorization")?.replace("Bearer ", "");

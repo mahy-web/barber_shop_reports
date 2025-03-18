@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 
 //Clase usuarioController
 class UsuariosController {
-
   //Inserta usuario
   async create(req, res) {
     try {
@@ -15,28 +14,49 @@ class UsuariosController {
         nombres,
         apellidos,
         email,
-        contraseña,
+        password,
         estado,
         rol,
+        usuarioCreacion,
       } = req.body;
 
-      if (await usuariosModel.getOne(identificacion))
-        return res.status(400).json({ error: "El usuario ya existe" });
+      // Verificar campos obligatorios
+      if (!password) {
+        return res
+          .status(400)
+          .json({ error: "El campo password es requerido" });
+      }
+      if (!usuarioCreacion) {
+        return res
+          .status(400)
+          .json({ error: "El campo usuarioCreacion es requerido" });
+      }
 
+      // Verificar si el usuario ya existe
+      const usuarioExistente = await usuariosModel.getOne(identificacion);
+      if (usuarioExistente) {
+        return res.status(400).json({ error: "El usuario ya existe" });
+      }
+
+      // Encriptar contraseña antes de guardar
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Crear usuario
       const result = await usuariosModel.create({
         identificacion,
         username,
         nombres,
         apellidos,
         email,
-        password: await bcrypt.hash(contraseña, 10),
+        password: hashedPassword,
         estado,
         rol,
+        usuarioCreacion,
       });
 
       res.status(201).json({ status: "create-ok", data: result });
-    } catch (e) {
-      console.error("Error en create:", e);
+    } catch (error) {
+      console.error("Error en create:", error);
       res.status(500).json({ error: "No se pudo crear el usuario" });
     }
   }
@@ -50,10 +70,9 @@ class UsuariosController {
       if (!(await usuariosModel.getOne(id)))
         return res.status(404).json({ error: "Usuario no encontrado" });
 
-      if (userData.contraseña)
-        userData.password = await bcrypt.hash(userData.contraseña, 10);
+      if (userData.password)
+        userData.password = await bcrypt.hash(userData.password, 10);
 
-      delete userData.contraseña;
       const result = await usuariosModel.update(id, userData);
 
       res.status(200).json({ status: "update-ok", data: result });
@@ -107,12 +126,17 @@ class UsuariosController {
       const { identificacion, password } = req.body;
       const usuario = await usuariosModel.getOne(identificacion);
 
-      if (!usuario || !(await bcrypt.compare(password, usuario.password)))
+      if (!usuario) {
+        return res.status(401).json({ error: "Usuario no encontrado" });
+      }
+
+      const isMatch = await bcrypt.compare(password, usuario.password);
+      if (!isMatch) {
         return res.status(401).json({ error: "Credenciales incorrectas" });
+      }
 
       const token = generarToken(identificacion);
-
-      res.status(200).json({ msg: "Usuario autenticado", token});
+      res.status(200).json({ msg: "Usuario autenticado", token });
     } catch (error) {
       console.error("Error en login:", error);
       res.status(500).json({ error: error.message });
@@ -121,4 +145,5 @@ class UsuariosController {
 
 }
 
+//Exportamos UsuariosController
 export default new UsuariosController();

@@ -13,4 +13,5 @@ usuariosRouter.put("/:id", validarToken, usuariosController.update);
 usuariosRouter.delete("/:id", validarToken, usuariosController.delete);
 usuariosRouter.post("/login", usuariosController.login);
 
+//Exportamos usuariosRouter
 export default usuariosRouter;

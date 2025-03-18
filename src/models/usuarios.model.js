@@ -62,4 +62,5 @@ class UsuariosModel {
 
 }
 
+//Exportamos UsuariosModel
 export default new UsuariosModel();

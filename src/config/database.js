@@ -1,3 +1,4 @@
+// Librerias y rutas
 import "dotenv/config";
 import mongoose from "mongoose";
 
@@ -44,4 +45,5 @@ class database {
 }
 
 const dbInstance = new database();
+//Exportamos dbInstance
 export default dbInstance;
