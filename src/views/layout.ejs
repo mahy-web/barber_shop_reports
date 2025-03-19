@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/inicio.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+          <i class="bx bxl-c-plus-plus icon"></i>
+          <div class="logo_name">Gentleman's</div>
+          <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="/inicio/reportes">
+              <i class="bx bx-grid-alt"></i>
+              <span class="links_name">Reportes</span>
+            </a>
+            <span class="tooltip">Reportes</span>
+          </li>
+          <li>
+            <a href="/inicio/usuarios">
+              <i class="bx bx-user"></i>
+              <span class="links_name">Usuarios</span>
+            </a>
+            <span class="tooltip">Usuarios</span>
+          </li>
+          <li>
+            <a href="/inicio/parametros">
+              <i class="bx bx-slider"></i>
+              <span class="links_name">Parametros</span>
+            </a>
+            <span class="tooltip">Parametros</span>
+          </li>
+          <li>
+            <a href="/inicio/configuracion">
+              <i class="bx bx-cog"></i>
+              <span class="links_name">Configuracion</span>
+            </a>
+            <span class="tooltip">Configuracion</span>
+          </li>
+          <li class="profile">
+            <div class="profile-details">
+              <div class="name_job">
+                <div class="name">Michael</div>
+                <div class="job">Web designer</div>
+              </div>
+            </div>
+            <i class="bx bx-log-out" id="log_out"></i>
+          </li>
+        </ul>
+      </div>
+      <section class="home-section">
+        <%- include(view) %>
+    </section>
+</body>
+<script src="/js/inicio.js"></script>
+</html>
